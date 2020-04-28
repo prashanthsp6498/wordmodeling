@@ -1,5 +1,6 @@
 $(window).ready(function () {
     $('.container').hide();
+    // $('.suggestion_row').hide();
     $(document).ready(function () {
         $('#loader').hide();
         $('.container').show();
@@ -57,16 +58,40 @@ $(document).ready(function () {
     })
 })
 
+
 $(document).ready(function () {
     $('#textbox').keypress(function (event) {
+        var text = '';
         if (event.keyCode == 32) {
-            console.log("Space Pressed");
+            text = $('#textbox').val();
+            text = $.trim(text);
+            text = text.split('  ').join(' ');
+            $('#textbox').val(text);
+            $.ajax({
+                data: {
+                    textbox: text,
+                },
+                type: 'POST',
+                url: '/wordpredict',
+            })
+                .done(function (data) {
+                    if (data) {
+                        console.log(data.result);
+                        // $('.suggestion_row').show();
+                        for (var i = 0; i < data.result.length; i++) {
+                            $('#' + i.toString()).text(data.result[i]);
+                        }
+                    }
+                    else {
+                        console.log(data);
+                    }
+                });
         }
     })
 })
 
 $(document).ready(function () {
-    $('.language').on('click', function() {
+    $('.language').on('click', function () {
         var id = $(this).attr('id');
         if (id == 'kannada') {
             $('.navbar-brand').text('ವರ್ಡ್ ಮಾಡೆಲ್');
@@ -81,6 +106,29 @@ $(document).ready(function () {
             $('#textbox').attr('placeholder', 'Type here');
         }
 
+
+    })
+})
+
+
+// dark-mode function
+$(document).ready(function () {
+    $('.color_mode').on('click', function () {
+        var id = $(this).attr('id');
+        var bg = '#343a40';
+        var fontColor = 'white';
+        if (id == 'dark') {
+            bg = '#343a40';
+            fontColor = 'white';
+        }
+        else {
+            bg = 'white';
+            fontColor = 'black';
+        }
+        $('.background').css('background-color', bg);
+        $('.background').css('color', fontColor);
+        $('.navbar-brand').css('color', fontColor);
+        $('.mode_button').text(id);
 
     })
 })

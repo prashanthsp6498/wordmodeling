@@ -14,7 +14,13 @@ def WordSuggestion(word):
 
 @app.route('/')
 def index():
-    num = ['who', 'am', 'i', 'and', 'for', 'do']
     number = [0, 1, 2, 3, 4, 5, 6]
-    num = WordSuggestion('hello')
-    return render_template('word_predictor.html', num=num, number=number)
+    return render_template('word_predictor.html', number=number)
+
+
+@app.route('/wordpredict', methods=['POST'])
+def wordpredict():
+    if request.method == 'POST':
+        text = request.form['textbox']
+        suggestions = WordSuggestion(text)
+        return jsonify(result=suggestions)

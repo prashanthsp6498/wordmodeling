@@ -9,16 +9,33 @@
     <div class="col-md-2"></div>
     <div class="col-md-2">
         <!-- Example single danger button -->
-        <div class="btn-group mt-4">
-            <button type="button" class="btn btn-success dropdown-toggle language_button" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                ಕನ್ನಡ
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item language" id='kannada' href="#">ಕನ್ನಡ </a>
-                <a class="dropdown-item language" id='english' href="#">English</a>
-            </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="btn-group mt-4">
+                    <button type="button" class="btn btn-success dropdown-toggle mode_button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Mode 
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item color_mode" id='dark' href="#">dark</a>
+                        <a class="dropdown-item color_mode" id='light' href="#">light</a>
+                    </div>
 
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="btn-group mt-4">
+                    <button type="button" class="btn btn-success dropdown-toggle language_button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        ಕನ್ನಡ
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item language" id='kannada' href="#">ಕನ್ನಡ </a>
+                        <a class="dropdown-item language" id='english' href="#">English</a>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -26,18 +43,19 @@
     <div class="col-md-12">
         <div class="mb-3">
             <label for="validationTextarea" id='textAreaLabel'>ಬರಿಯುವ ಸ್ಥಳ </label>
-            <textarea class="form-control " id="textbox" placeholder="ಇಲ್ಲಿ ಬರಿಯಿರಿ " rows="10" required></textarea>
+            <textarea class="form-control background"  id="textbox"
+                placeholder="ಇಲ್ಲಿ ಬರಿಯಿರಿ " rows="10" required></textarea>
             <div class="invalid-feedback">
                 Please enter a message in the textarea.
             </div>
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row suggestion_row">
     {% for i in number %}
     <div class="col-md-2">
         <a href="#" class="badge badge-success suggestion mt-2" id="{{ i }}"
-            style="width: 150px;height: 30px;font-size: medium;">{{ num[i] }}</a>
+            style="width: 150px;height: 30px;font-size: medium;"></a>
     </div>
     {% endfor %}
 </div>
