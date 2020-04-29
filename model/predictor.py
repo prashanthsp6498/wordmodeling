@@ -24,7 +24,6 @@ class Predictor:
     def textGenerator(self, seed_text):
         output_text = []
         input_text = seed_text
-
         for i in range(self.num_gen_words):
             encoded_text = self.tokenizer.texts_to_sequences([input_text])[0]
             pad_encoded = pad_sequences(
@@ -48,6 +47,7 @@ if __name__ == "__main__":
         if seed_text.lower() == '--exit':
             break
         else:
+            seed_text = seed_text.split()[-1]
             out = predictor.textGenerator(seed_text)
             print('output: ' + seed_text)
             print(out)
