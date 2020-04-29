@@ -1,5 +1,7 @@
 # wordmodeling
 
-![](https://github.com/prashanthsp6498/wordmodeling/tree/master/gif/project_main.gif, 'Demo')
+Demo
 
-![](https://github.com/prashanthsp6498/wordmodeling/tree/master/gif/project_features.gif, 'Demo')
+![github](gif/project_main.gif)
+
+![github](gif/project_features.gif)
