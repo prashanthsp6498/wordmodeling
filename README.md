@@ -12,9 +12,10 @@ predicting what word comes next for Kannada language.
 * Flask - web frameword
 
 
-(https://github.com/prashanthsp6498/wordmodeling/tree/master/gif/project_main.gif, 'Demo')
+Demo
+![github](gif/project_main.gif)
 
-(https://github.com/prashanthsp6498/wordmodeling/tree/master/gif/project_features.gif, 'Demo')
+![github](gif/project_features.gif)
 
 
 ### contributors
