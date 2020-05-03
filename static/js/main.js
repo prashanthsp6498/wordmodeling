@@ -86,3 +86,121 @@ $(document).ready(function () {
         console.log(de.length);
     })
 })
+
+
+$(document).ready(function () {
+    var base_url = '/api/files?filename=';
+    $(document).on('click', '.files', function () {
+        var filename = $(this).children().children().text();
+        var editor = 'editor?filename=' + filename;
+        $(location).attr('href', editor);
+
+    })
+})
+
+$(document).ready(function () {
+    $('.filebutton').on('click', function () {
+        var filename = $('.filename').val();
+        if (filename) {
+            $(location).attr('href', '/editor?filename=' + filename);
+        }
+    })
+
+})
+
+$(document).ready(function () {
+    var url = $(location).attr('href').split('?')[0];
+    var file_name = $(location).attr('href').split('?')[1].split('=')[1];
+    console.log(file_name)
+    $('.filename_btn').text(file_name);
+    if (url == "http://127.0.0.1:5000/editor") {
+        if (file_name) {
+            var information = {
+                data: {
+                    filename: file_name,
+                },
+                type: 'GET',
+                url: '/api/files?filename=' + file_name,
+            };
+            $.ajax(information).done(function (data) {
+                if (data) {
+                    $('#textbox').val(data['filedata']);
+                    $('.filename_btn').text(file_name);
+                }
+            })
+        }
+    }
+
+    $('#save_text').on('click', function () {
+        var text = $('#textbox').val();
+        var filename = $('.filename_btn').text();
+        console.log(text);
+        var information = {
+            data: {
+                text: text,
+                filename: filename,
+            },
+            type: 'POST',
+            url: '/api/save_text',
+        };
+        $.ajax(information).done(function (data) {
+            if (data.success) {
+                $('.save_hide_btn').parent().toggle();
+                $('.save_status').val("Saved Successfully");
+            }
+        })
+    })
+})
+
+
+$(document).ready(function () {
+    $('.save_status').hide();
+    var url = $(location).attr('href').split('?')[0];
+    var file_name = $(location).attr('href').split('?')[1].split('=')[1];
+    if (url == "http://127.0.0.1:5000/editor") {
+        if (file_name) {
+            var information = {
+                data: {
+                    filename: file_name,
+                },
+                type: 'GET',
+                url: '/api/files?filename=' + file_name,
+            };
+            $.ajax(information).done(function (data) {
+                if (data) {
+                    $('#textbox').val(data['filedata']);
+                    $('.filename_btn').text(file_name);
+                }
+            })
+        }
+    }
+
+    $('#save_text').on('click', function () {
+        var text = $('#textbox').val();
+        var filename = $('.filename_btn').text();
+        console.log(text);
+        var information = {
+            data: {
+                text: text,
+                filename: filename,
+            },
+            type: 'POST',
+            url: '/api/save_text',
+        };
+        $.ajax(information).done(function (data) {
+            if (data.success) {
+                $('.save_hide_btn').parent().toggle();
+                $('.save_status').val("Saved Successfully");
+            }
+        })
+    })
+
+    $('.help_hide_btn').on('click', function () {
+        $(this).parent().toggle();
+    })
+
+    $('.save_hide_btn').on('click', function () {
+        $(this).parent().toggle();
+    })
+
+})

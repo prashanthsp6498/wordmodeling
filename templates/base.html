@@ -17,6 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/60d4127b2b.js"></script>
     <script src="static/js/preferences.js"></script>
     <script src="static/js/shortcuts.js"></script>
     <script src="static/js/main.js"></script>
@@ -24,18 +25,32 @@
 </head>
 
 <body class='background'>
-    <nav class="navbar navbar-expand-lg navbar-light" >
-        <a class="navbar-brand" href="#" id="background" ><strong>ವರ್ಡ್ ಮಾಡೆಲ್</strong></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#" id="background"><strong>ವರ್ಡ್ ಮಾಡೆಲ್</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="collapse navbar-collapse mr-4" id="navbarNav">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item active">
+                    {% if current_user.is_authenticated %}
+                    <a class="nav-link" href="#">
+                        {{ current_user.first_name}}</a>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('signin')}}">Sign In</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item active">
+                    {% if current_user.is_authenticated %}
+                    <a class="nav-link" href="{{ url_for('signout') }} ">Sign out</a>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('signup')}}">Sign Up</a>
+                    {% endif %}
+                </li>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-            <!-- <a class="navbar-brand ml-55" href="#"><strong>ವರ್ಡ್ ಮಾಡೆಲ್</strong></a> -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent"></button>
+            </ul>
         </div>
     </nav>
 
@@ -47,6 +62,10 @@
     </div>
 
     <div class="container">
+
+        {% block dashboard %}{% endblock %}
+        {% block login %}{% endblock %}
+        {% block register%}{% endblock %}
         {% block main_body %}{% endblock %}
     </div>
 

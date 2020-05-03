@@ -7,13 +7,13 @@ from keras.preprocessing.sequence import pad_sequences
 class Predictor:
     def __init__(self, model=None, tokenizer=None, seq_len=6, num_gen_words=6):
         if model:
-            self.model = model
+            self.model = load_model(model)
         else:
             self.model = load_model(os.path.join(
                 'checkpoints', 'kannada', 'model.h5'))
 
         if tokenizer:
-            self.tokenizer = tokenizer
+            self.tokenizer = load(open(tokenizer, 'rb'))
         else:
             self.tokenizer = load(
                 open(os.path.join('pickle_objects', 'kannada', 'tokenizer_model4'), 'rb'))
