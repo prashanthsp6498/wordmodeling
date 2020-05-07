@@ -2,8 +2,8 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block register %}
-<div class="row">
-    <div class="col-md-4"></div>
+<div class="row"  >
+    <div class="col-md-4"  style="background-image: url({{ url_for('static', filename='images/kannada-bg.png')}}); opacity: 0.4; "></div>
     <div class="col-md-4 form-group">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -33,7 +33,7 @@
             {{ form.submit(class_="btn btn-primary mt-1") }}
         </form>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4" style="background-image: url({{ url_for('static', filename='images/kannada-bg.png')}}); opacity: 0.4; transform: rotateX(180deg) rotateY(180deg); " ></div>
 </div>
 
 {% endblock %}

@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block login %}
-<div class="row">
-    <div class="col-md-7"></div>
+<div class="row" >
+    <div class="col-md-7" style="background-image: url({{ url_for('static', filename='images/kannada-bg.png')}}); opacity: 0.4; "></div>
     <div class="col-md-5 mt-4">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -19,10 +19,16 @@
             {{ form.email(class_="form-control") }}
             {{ form.password.label }}
             {{ form.password(class_="form-control") }}
-            <a href="{{ url_for('forgot_password') }}">Forgot password</a><br/>
+            <a href="{{ url_for('forgot_password') }}">Forgot password</a><br />
             {{ form.submit(class_="btn btn-primary mt-2") }}
         </form>
 
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12"> 
+        <img src="{{ url_for('static', filename='images/kannada-bg.png')}}" alt="" style="opacity: 0.4;">
+    </div>
+</div>
+
 {% endblock %}
