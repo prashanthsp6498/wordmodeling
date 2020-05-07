@@ -1,15 +1,19 @@
 import webapp.userdatahandler as uhandler
-from flask import render_template, request, jsonify, flash, redirect
-from flask import url_for, session
-from webapp.forms import Registration, Login
-from webapp.languagemanager import LanguageManager
-from flask_login import login_user, logout_user, login_required
-from werkzeug.security import generate_password_hash, check_password_hash
-from webapp.dbmodel import db
 from webapp import app
+from webapp import mail
+from webapp.dbmodel import db
 from webapp.dbmodel import User
+from webapp.forms import Registration, Login, ForgotPassword, PasswdRest
+from webapp.languagemanager import LanguageManager
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+from flask import url_for, session
+from flask import render_template, request, jsonify, flash, redirect
+from flask_login import login_user, logout_user, login_required
+from flask_mail import Message
+from werkzeug.security import generate_password_hash, check_password_hash
 
 langManager = LanguageManager()
+s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
 @app.route('/editor')
@@ -64,10 +68,18 @@ def signup():
                             email=form.email.data,
                             password=hashed_password,
                             uuid=hashed_email)
+            token = s.dumps(form.email.data, salt='email-confirm')
+            msg = Message("Confirm Email", sender=app.config['MAIL_USERNAME'],
+                          recipients=[form.email.data])
+            link = url_for('confirm_email', token=token, _external=True)
+            msg.body = 'Your link is {}'.format(link)
+            print(msg.body)
             try:
                 db.session.add(new_user)
                 db.session.commit()
                 uhandler.create_user_directory(hashed_email)
+                mail.send(msg)
+                flash("Verification link sent to your mail")
             except Exception:
                 flash("User already exist")
                 return render_template("register.html", form=form)
@@ -75,6 +87,22 @@ def signup():
         else:
             render_template("register.html", form=form)
     return render_template("register.html", form=form)
+
+
+@app.route('/confirm_email/<token>', methods=['POST', 'GET'])
+def confirm_email(token):
+    try:
+        email = s.loads(token, salt='email-confirm', max_age=600)
+        print("EMAIL ", email)
+        user = User.query.filter_by(email=email).first()
+        if user:
+            user.email_confirmation = True
+            db.session.commit()
+    except SignatureExpired:
+        flash("Link is expired")
+        return redirect(url_for('signin'))
+    flash("Account Activated")
+    return redirect(url_for('signin'))
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -85,13 +113,17 @@ def signin():
             user = User.query.filter_by(email=form.email.data).first()
             print('user', user)
             if user:
-                if check_password_hash(user.password, form.password.data):
-                    login_user(user)
-                    uhandler.user_config['userhash'] = user.uuid
-                    session['userdir'] = user.uuid
-                    return redirect(url_for("dashboard"))
+                if user.email_confirmation:
+                    if check_password_hash(user.password, form.password.data):
+                        login_user(user)
+                        uhandler.user_config['userhash'] = user.uuid
+                        session['userdir'] = user.uuid
+                        return redirect(url_for("dashboard"))
+                    else:
+                        flash("wrong password")
+                        return render_template("login.html", form=form)
                 else:
-                    flash("wrong password")
+                    flash("First Confirm your Email")
                     return render_template("login.html", form=form)
             else:
                 flash("User doesn't exist")
@@ -100,9 +132,52 @@ def signin():
 
     return render_template("login.html", form=form)
 
-# @app.errorhandler(404)
-# def not_found(error):
-#     return "<h1>Ooooooooooppppppppssssssssssssss</h1>"
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    form = ForgotPassword()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=form.email.data).first()
+            if user:
+                token = s.dumps(form.email.data, salt='password-reset')
+                msg = Message("Password Reset",
+                              sender=app.config['MAIL_USERNAME'],
+                              recipients=[form.email.data])
+                link = url_for('reset_password', token=token, _external=True)
+                msg.body = 'Your link is {}'.format(link)
+                mail.send(msg)
+                flash("Reset Link sent to your mail")
+                return redirect(url_for("signin"))
+            else:
+                flash("User doesn't exist")
+                return redirect(url_for("signin"))
+    return render_template("forgotpassword.html", form=form)
+
+
+@app.route('/reset_password/<token>', methods=['POST', 'GET'])
+def reset_password(token):
+    form = PasswdRest()
+    try:
+        email = s.loads(token, salt='password-reset', max_age=600)
+        user = User.query.filter_by(email=email).first()
+        if request.method == 'POST':
+            if form.validate_on_submit():
+                hashed_password = generate_password_hash(
+                    form.password.data, method='sha256')
+                user.password = hashed_password
+                db.session.commit()
+                flash("Password Reset Successfully")
+                return redirect(url_for("signin"))
+    except SignatureExpired:
+        flash("Link is expired")
+        return redirect(url_for('signin'))
+    return render_template("resetpassword.html", form=form)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return "<h1>Your imagination is beyond ours</h1>"
 
 
 @app.route('/signout')

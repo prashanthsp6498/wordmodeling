@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import form, StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Email, length
+from wtforms.validators import InputRequired, Email, length, EqualTo
 
 
 class Registration(FlaskForm):
@@ -12,7 +12,8 @@ class Registration(FlaskForm):
         "Please enter your email"), Email("Enter valid email")])
     password = PasswordField("Password", validators=[length(min=8, max=16)])
     re_password = PasswordField(
-        "Re-enter Password", validators=[length(min=8, max=16)])
+                    "Re-enter Password",
+                    validators=[length(min=8, max=16), EqualTo('password')])
     submit = SubmitField("Submit")
 
 
@@ -22,3 +23,17 @@ class Login(FlaskForm):
     password = PasswordField("Enter you password", [
                              InputRequired("Please enter your password")])
     submit = SubmitField("Login")
+
+
+class ForgotPassword(FlaskForm):
+    email = StringField(
+        "Enter Email", [InputRequired("Enter your email"), Email()])
+    submit = SubmitField("Submit")
+
+
+class PasswdRest(FlaskForm):
+    password = PasswordField("New Password", validators=[length(min=8, max=16)])
+    re_password = PasswordField(
+                    "Re-enter New Password",
+                    validators=[length(min=8, max=16), EqualTo('password')])
+    submit = SubmitField("Submit")

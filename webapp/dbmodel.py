@@ -13,3 +13,4 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(30), unique=True)
     password = db.Column(db.String(100))
     uuid = db.Column(db.String(100))
+    email_confirmation = db.Column(db.Boolean, default=False)
