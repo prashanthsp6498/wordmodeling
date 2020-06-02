@@ -10,7 +10,8 @@ app = Flask(__name__)
 module_dir = os.path.dirname(os.path.abspath(__file__))
 app.config['SECRET_KEY'] = '6567e0baf8ab4fbe8894bacf510034a2'
 app.config['JSON_AS_ASCII'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:<sp>@localhost/wordmodeling"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:<sp>@localhost/wordmodeling"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///wordmodel.sqlite3"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
@@ -21,6 +22,13 @@ Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 mail = Mail(app)
+
+dbfiles = os.path.join(module_dir, 'dbfiles')
+
+if os.path.exists(dbfiles):
+    print("dbfiles Exists")
+else:
+    os.mkdir(dbfiles)
 
 
 # try:
