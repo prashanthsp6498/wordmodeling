@@ -3,3 +3,4 @@ __pycache__
 web_app
 model/*
 !model/predictor.py
+Dockerfile
