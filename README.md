@@ -80,7 +80,7 @@ The following discribes the system architecture of the project :
 
 ## License
 
-This Project is licenced under  [MIT License.](https://github.com/kushtej/kn-Sentiment-Analysis/blob/master/LICENSE)
+This Project is licenced under  [MIT License.](LICENSE)
 
 ## Project Contributors
 
