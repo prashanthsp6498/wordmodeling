@@ -7,3 +7,5 @@ Dockerfile
 webapp/dbfiles/*
 serve.ini
 serverfiles
+Pipfile
+webapp/*.sqlite3
