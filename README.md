@@ -21,4 +21,4 @@ Demo
 
 ### contributors
 
-* [Tejasvi](https://github.com/kushtej)
+* [Tejasvi S](https://github.com/kushtej)
