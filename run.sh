@@ -17,9 +17,8 @@ else
     read -p "Enter EMAIL: " email
     read -p "Enter PASSWORD: " password
     read -p "Confirm EMAIL or PASSWORD? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
-    printf '{\n\t"mail":"%s",\n\t"passowrd":"%s"\n}' $email $password >> .auth.json
+    printf '{\n\t"mail":"%s",\n\t"password":"%s"\n}' $email $password >> .auth.json
 fi
-
 
 gmail='**'$email'**'
 gmail_password='**'$password'**'
