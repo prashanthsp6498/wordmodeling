@@ -8,4 +8,5 @@ webapp/dbfiles/*
 serve.ini
 serverfiles
 Pipfile
+.auth.json
 webapp/*.sqlite3

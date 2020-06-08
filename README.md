@@ -50,10 +50,11 @@ http://127.0.0.1:5000/
 ```
 ## Alternate Method:Running server using Bash script (Experimental)
 
-Alternatively, A bash script is written to run the flask server. Execute this script only after **pip**  is installed.
+Alternatively, A bash script is written to automate email export i.e., step 2 and to run the flask server. Execute this script only after **pip**  is installed.
 
 #### Steps to execute the bash script:
 
+-   `sudo apt-get install jq`(if previously not installed.)
 -   `chmod +x run.sh`
 -   `./run.sh`
 
