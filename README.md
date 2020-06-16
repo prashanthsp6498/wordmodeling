@@ -1,5 +1,8 @@
 # Kannada Language Modeling
 
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)]()
+
+
 A kannada word predictor platform which uses **Tensorflow Keras** backend powered by **flask** microframework. 
  
 This project is made interactive by jquery and sends asyncronous requests for more interactive and personalized experience.
